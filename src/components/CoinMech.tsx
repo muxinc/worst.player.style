@@ -4,15 +4,13 @@ import {
   MeshReflectorMaterial,
   Environment,
   PerspectiveCamera,
-  OrbitControls,
   Text
 } from '@react-three/drei';
 import {
   Physics,
   RigidBody,
   CuboidCollider,
-  RapierRigidBody,
-  CylinderCollider
+  RapierRigidBody
 } from '@react-three/rapier';
 import { Mesh, Quaternion, Euler, BoxGeometry } from 'three';
 import { useDrag } from '@use-gesture/react';

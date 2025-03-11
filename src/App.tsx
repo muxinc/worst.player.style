@@ -1,5 +1,3 @@
-// import Player from './components/Player';
-import CoinMech from './components/CoinMech';
 import PlayerComp from './components/PlayerComp';
 function App() {
   return (
@@ -36,23 +34,23 @@ function App() {
           <div className="h-10 w-full bg-[#A93C71]"></div>
         </div>
         <div className="container mx-auto text-center py-6">
-          <h1 className="text-[8rem] md:text-[12rem] font-extrabold tracking-tight text-gray-900 uppercase vhs-flicker" style={{textShadow: 
+          <h1 className="text-[8rem] md:text-[12rem] font-extrabold tracking-tight text-gray-900 uppercase vhs-flicker" style={{textShadow:
             `3px 3px 0 #F7C016,
             6px 6px 0 #F26222,
             9px 9px 0 #EA3737,
             12px 12px 0 #A93C71`}}>
             <span className="block">Let's Play</span>
           </h1>
-          
+
           <h2 className="text-3xl md:text-5xl font-bold text-[#A93C71] mt-4 mb-6">Who will build the most off-the-wall video player?</h2>
-          
+
           <div className="bg-[#EA3737] text-white p-4 mb-8 inline-block transform -rotate-2 border-2 border-black shadow-lg">
             <p className="text-xl md:text-2xl font-bold">LIVE at Epic Web Conf 2025!</p>
             <p className="text-lg">Join us in-person or participate remotely</p>
           </div>
 
           <PlayerComp />
-          
+
           <div className="prose prose-lg mx-auto mt-12 mb-16 px-4 max-w-4xl text-left">
             <p className="mb-8 text-3xl font-serif leading-relaxed">
               Every video player looks the same. A rectangle with a play button. A progress bar at the bottom. A fullscreen button.
@@ -74,7 +72,7 @@ function App() {
               Your challenge: dream up the wildest, most unexpected video player you can imagine—and bring it to life using <a href="https://media-chrome.org" className="text-[#A93C71] hover:underline font-bold">Media Chrome</a>, a tool kit for building media players, made by <a href="https://mux.com" className="text-[#A93C71] hover:underline font-bold">Mux</a>.
             </p>
           </div>
-          
+
           <div className="max-w-2xl mx-auto my-12 p-6 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
             <h3 className="text-3xl font-bold mb-6 uppercase">CONTEST RULES</h3>
             <ul className="text-left text-lg space-y-4">
@@ -87,7 +85,7 @@ function App() {
 
           <div className="max-w-2xl mx-auto my-12 p-6 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
             <h3 className="text-3xl font-bold mb-6 uppercase text-center">JUDGES</h3>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="bg-[#F7C016] p-4 border-2 border-black">
                 <div className="flex items-center mb-3">
@@ -96,7 +94,7 @@ function App() {
                 </div>
                 <p className="text-black">"Once judged a pie-eating contest but ate all the evidence."</p>
               </div>
-              
+
               <div className="bg-[#F26222] p-4 border-2 border-black">
                 <div className="flex items-center mb-3">
                   <div className="w-16 h-16 bg-gray-300 rounded-full mr-3 flex-shrink-0"></div>
@@ -104,7 +102,7 @@ function App() {
                 </div>
                 <p className="text-black">"Can't code but can critique with the confidence of a thousand developers."</p>
               </div>
-              
+
               <div className="bg-[#EA3737] p-4 border-2 border-black">
                 <div className="flex items-center mb-3">
                   <div className="w-16 h-16 bg-gray-300 rounded-full mr-3 flex-shrink-0"></div>
@@ -112,7 +110,7 @@ function App() {
                 </div>
                 <p className="text-black">"Believes all video players should meow when paused."</p>
               </div>
-              
+
               <div className="bg-[#A93C71] p-4 border-2 border-black">
                 <div className="flex items-center mb-3">
                   <div className="w-16 h-16 bg-gray-300 rounded-full mr-3 flex-shrink-0"></div>
@@ -120,7 +118,7 @@ function App() {
                 </div>
                 <p className="text-white">"Once debugged code using only interpretive dance and succeeded."</p>
               </div>
-              
+
               <div className="bg-black p-4 border-2 border-white col-span-1 md:col-span-2">
                 <div className="flex items-center mb-3">
                   <div className="w-16 h-16 bg-gray-300 rounded-full mr-3 flex-shrink-0"></div>
@@ -133,7 +131,7 @@ function App() {
 
           <div className="max-w-2xl mx-auto my-12 p-6 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
             <h3 className="text-3xl font-bold mb-6 uppercase text-center">PRIZES</h3>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="bg-[#F7C016] p-4 border-2 border-black">
                 <div className="flex items-center mb-3">
@@ -143,7 +141,7 @@ function App() {
                 <span className="text-white bg-black px-2 py-1 inline-block mb-3">TWO MUX PEAK DESIGN BACKPACKS</span>
                 <p className="text-black">The best way to carry your laptop and a few snacks</p>
               </div>
-              
+
               <div className="bg-[#F26222] p-4 border-2 border-black">
                 <div className="flex items-center mb-3">
                   <span className="bg-black text-white px-3 py-2 mr-3 font-bold text-xl">2</span>
@@ -152,7 +150,7 @@ function App() {
                 <span className="text-white bg-black px-2 py-1 inline-block mb-3">MUX SONOS SPEAKER</span>
                 <p className="text-black">Fill your space with sound as crisp as your code</p>
               </div>
-              
+
               <div className="bg-[#EA3737] p-4 border-2 border-black">
                 <div className="flex items-center mb-3">
                   <span className="bg-black text-white px-3 py-2 mr-3 font-bold text-xl">3</span>
@@ -161,7 +159,7 @@ function App() {
                 <span className="text-white bg-black px-2 py-1 inline-block mb-3">MEDIA-CHROME T-SHIRT</span>
                 <p className="text-black">Show up in person and walk away with some sick swag</p>
               </div>
-              
+
               <div className="bg-[#A93C71] p-4 border-2 border-black">
                 <div className="flex items-center mb-3">
                   <span className="bg-black text-white px-3 py-2 mr-3 font-bold text-xl">4</span>
@@ -172,7 +170,7 @@ function App() {
               </div>
             </div>
           </div>
-          
+
           <div className="mt-16">
             <h3 className="text-2xl font-bold mb-4">Need good-looking player inspiration? <br />You won't find it here. <br />Instead, check out</h3>
             <a href="https://player.style" className="inline-block mb-6 text-[#A93C71] hover:text-[#8A2E5D] transition-colors">
@@ -180,11 +178,11 @@ function App() {
             </a>
           </div>
         </div>
-        
+
         <div className="max-w-2xl mx-auto my-12 p-6 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
           <h3 className="text-3xl font-bold mb-6 uppercase">Your Boilerplate Awaits...</h3>
           <p className="text-xl mb-4">Start with our template and just lose it</p>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
             <div>
               <h4 className="font-bold text-lg mb-2">HTML/Web Components</h4>
@@ -195,7 +193,7 @@ function App() {
 // Now make it BONKERS!</pre>
               </div>
             </div>
-            
+
             <div>
               <h4 className="font-bold text-lg mb-2">React Version</h4>
               <div className="bg-black text-green-400 p-4 border-2 border-black font-mono text-sm overflow-x-auto h-full">
@@ -206,7 +204,7 @@ function App() {
               </div>
             </div>
           </div>
-          
+
           <p className="text-sm italic">Choose your fighter and start creating!</p>
         </div>
 
@@ -218,7 +216,7 @@ function App() {
           </a>
           <p className="mt-4 text-sm">Find components, examples, and everything you need to build your player</p>
         </div>
-        
+
         <div className="container mx-auto text-center py-8">
           <h3 className="text-3xl font-bold mb-6">When you're done...</h3>
           <p className="text-xl mb-4">Xeet your creation with <span className="font-bold text-[#EA3737]">#WildPlayerContest</span>, tag <span className="font-bold text-[#A93C71]">@MuxHQ</span>, and show the world your masterpiece</p>
@@ -230,7 +228,7 @@ function App() {
             </a>
           </div>
         </div>
-        
+
         <div className="max-w-2xl mx-auto my-12 p-6 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
           <h3 className="text-3xl font-bold mb-6 uppercase text-center">PARTICIPATION OPTIONS</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -244,7 +242,7 @@ function App() {
             </div>
           </div>
         </div>
-        
+
         <footer className="container mx-auto text-center py-8">
           <p className="text-gray-400 text-sm italic">be kind, rewind</p>
           <div className="mt-4">
