@@ -10,12 +10,7 @@ import {
   Physics, 
   RigidBody, 
   CuboidCollider,
-  CylinderCollider,
-  useRapier,
-  RapierRigidBody,
-  vec3,
-  quat,
-  euler
+  RapierRigidBody
 } from '@react-three/rapier';
 import { Mesh, Quaternion, Euler } from 'three';
 import { useDrag } from '@use-gesture/react';
@@ -49,7 +44,6 @@ function Coin({ position }: { position: [number, number, number] }) {
   const rigidBody = useRef<RapierRigidBody>(null);
   const visualRef = useRef<Mesh>(null);
   const [isGrabbed, setIsGrabbed] = useState(false);
-  const LOCKED_Z = -0.7;
 
   useFrame(() => {
     if (isGrabbed && rigidBody.current) {
@@ -68,7 +62,7 @@ function Coin({ position }: { position: [number, number, number] }) {
     }
   });
 
-  const bind = useDrag(({ down, xy, movement: [mx, my] }) => {
+  const bind = useDrag(({ down, movement: [mx, my] }) => {
     if (!rigidBody.current) return;
     const coin = rigidBody.current;
 

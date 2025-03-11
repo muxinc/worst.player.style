@@ -13,7 +13,6 @@ import { Physics, useBox, usePlane } from '@react-three/cannon';
 import * as THREE from 'three';
 import { Mesh } from 'three';
 
-const PLAY_TIME = 4; // seconds
 const COIN_VALUE = 1; // seconds per coin
 
 function CoinSlotTrigger({ onCoinInserted }: { onCoinInserted: () => void }) {
@@ -263,11 +262,11 @@ export default function Player() {
               position={[0, 1, 2.5]}
               rotation={[-0.2, 0, 0]}
             />
-        {/* <OrbitControls
+        <OrbitControls
           enableZoom={true}
           enablePan={true}
           enableRotate={true}
-        /> */}
+        />
       </Canvas>
     </div>
   );

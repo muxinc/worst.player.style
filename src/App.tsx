@@ -1,4 +1,4 @@
-import Player from './components/Player';
+// import Player from './components/Player';
 import CoinMech from './components/CoinMech';
 function App() {
   return (
