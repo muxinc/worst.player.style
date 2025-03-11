@@ -1,44 +1,26 @@
 import { useRef, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { 
-  MeshReflectorMaterial, 
+import {
+  MeshReflectorMaterial,
   Environment,
   PerspectiveCamera,
-  OrbitControls
+  OrbitControls,
+  Text
 } from '@react-three/drei';
-import { 
-  Physics, 
-  RigidBody, 
+import {
+  Physics,
+  RigidBody,
   CuboidCollider,
-  RapierRigidBody
+  RapierRigidBody,
+  CylinderCollider
 } from '@react-three/rapier';
-import { Mesh, Quaternion, Euler } from 'three';
+import { Mesh, Quaternion, Euler, BoxGeometry } from 'three';
 import { useDrag } from '@use-gesture/react';
+import { SUBTRACTION, Brush, Evaluator } from 'three-bvh-csg';
+import * as THREE from 'three';
 
-import { Attractor } from "@react-three/rapier-addons";
-
-
-const COIN_VALUE = 1; // seconds per coin
-
-function CoinSlotTrigger({ onCoinInserted }: { onCoinInserted: () => void }) {
-  return (
-    <RigidBody type="fixed" position={[1, 1.25, -1]} sensor>
-      <CuboidCollider 
-        args={[1, 0.25, 0.25]} 
-        onIntersectionEnter={(e) => {
-          if (e.other.rigidBodyObject?.userData?.type === 'coin') {
-            onCoinInserted();
-          }
-        }}
-      >
-        <mesh>
-          <boxGeometry args={[2, 0.5, 0.5]} />
-          <meshStandardMaterial wireframe color="red" />
-        </mesh>
-      </CuboidCollider>
-    </RigidBody>
-  );
-}
+// Add this outside of any component
+let isAnyCoinBeingDragged = false;
 
 function Coin({ position }: { position: [number, number, number] }) {
   const rigidBody = useRef<RapierRigidBody>(null);
@@ -47,38 +29,49 @@ function Coin({ position }: { position: [number, number, number] }) {
 
   useFrame(() => {
     if (isGrabbed && rigidBody.current) {
-      const coin = rigidBody.current;
+      const coinPhysics = rigidBody.current;
       const targetRotation = new Euler(Math.PI / 2, 0, Math.PI / 2);
       const targetQuat = new Quaternion().setFromEuler(targetRotation);
-      
+
       const currentQuat = new Quaternion();
-      const rot = coin.rotation();
+      const rot = coinPhysics.rotation();
       const quat = new Quaternion(rot.x, rot.y, rot.z, rot.w);
       currentQuat.setFromEuler(new Euler().setFromQuaternion(quat));
-      
+
       currentQuat.slerp(targetQuat, 0.1);
-      
-      coin.setNextKinematicRotation(currentQuat);
+
+      coinPhysics.setNextKinematicRotation(currentQuat);
     }
   });
 
   const bind = useDrag(({ down, movement: [mx, my] }) => {
     if (!rigidBody.current) return;
-    const coin = rigidBody.current;
+    const coinPhysics = rigidBody.current;
 
     if (down) {
-      setIsGrabbed(true);
-      document.body.style.cursor = 'grabbing';
-      coin.setBodyType(2, true);
-      
-      coin.setLinvel({ x: 0, y: 0, z: 0 }, true);
-      coin.setAngvel({ x: 0, y: 0, z: 0 }, true);
-      const pos = coin.translation();
-      coin.setTranslation({ x: mx / 300, y: -my / 300, z: pos.z }, true);
+      // Only allow grabbing if no other coin is being dragged
+      if (!isAnyCoinBeingDragged || isGrabbed) {
+        isAnyCoinBeingDragged = true;
+        setIsGrabbed(true);
+        document.body.style.cursor = 'grabbing';
+        coinPhysics.setBodyType(2, true);
+
+        const targetPos = {
+          x: mx / 300,
+          y: -my / 300,
+          z: -0.65
+        };
+
+        coinPhysics.setNextKinematicTranslation(targetPos);
+      }
     } else {
-      setIsGrabbed(false);
-      document.body.style.cursor = 'auto';
-      coin.setBodyType(0, true);
+      if (isGrabbed) {
+        isAnyCoinBeingDragged = false;
+        setIsGrabbed(false);
+        document.body.style.cursor = 'auto';
+        coinPhysics.setBodyType(0, true);
+        coinPhysics.applyImpulse({ x: 0, y: 0, z: -0.02 }, true);
+      }
     }
   });
 
@@ -87,14 +80,15 @@ function Coin({ position }: { position: [number, number, number] }) {
       ref={rigidBody}
       position={position}
       userData={{ type: 'coin' }}
-      {...bind()}
+      colliders="cuboid"
     >
       <mesh
         ref={visualRef}
         castShadow
+        {...bind()}
       >
-        <cylinderGeometry args={[0.12, 0.12, 0.025, 32]} />
-        <meshStandardMaterial 
+        <cylinderGeometry args={[0.10, 0.10, 0.02, 32]} />
+        <meshStandardMaterial
           color="#FFD700"
           metalness={0.8}
           roughness={0.2}
@@ -106,10 +100,10 @@ function Coin({ position }: { position: [number, number, number] }) {
   );
 }
 
-function CoinStack({ count = 10 }) {
+function CoinStack({ count = 50 }) {
   return Array.from({ length: count }).map((_, i) => (
-    <Coin 
-      key={i} 
+    <Coin
+      key={i}
       position={[
         Math.sin(i * 1.2) * 0.3 + (i % 3) * 0.1,
         1.5 + Math.floor(i / 3) * 0.05,
@@ -132,22 +126,82 @@ function Ground() {
             mixStrength={1}
             roughness={1}
             depthScale={1}
-            color="#888"
+            color="#fff"
           />
         </mesh>
       </CuboidCollider>
     </RigidBody>
   );
 }
+function CoinBox({ onCoinInserted }: { onCoinInserted: () => void }) {
+  const boxRef = useRef<Mesh>(null);
+  const faceplateRef = useRef<Mesh>(null);
 
-function CoinBox() {
+  useEffect(() => {
+    if (!boxRef.current || !faceplateRef.current) return;
+
+    // Create main box brush - reduced width from 0.5 to 0.3
+    const mainBox = new Brush(new BoxGeometry(0.4, 0.6, 0.4));
+    mainBox.updateMatrixWorld();
+
+    // Create slot hole brush - moved to left side
+    const slotHole = new Brush(new BoxGeometry(0.07, 0.3, 0.4));
+    slotHole.position.x = -0.05; // Move hole to left side
+    slotHole.updateMatrixWorld();
+
+    // Create evaluator and subtract hole from box
+    const evaluator = new Evaluator();
+    const result = evaluator.evaluate(mainBox, slotHole, SUBTRACTION);
+
+    // Update the box mesh geometry
+    boxRef.current.geometry = result.geometry;
+
+    // Create faceplate brush - reduced width from 0.25 to 0.2
+    const faceplate = new Brush(new BoxGeometry(0.25, 0.40, 0.01));
+    faceplate.updateMatrixWorld();
+
+    // Subtract slot from faceplate
+    const faceplateResult = evaluator.evaluate(faceplate, slotHole, SUBTRACTION);
+
+    // Update the faceplate mesh geometry
+    faceplateRef.current.geometry = faceplateResult.geometry;
+  }, []);
+
   return (
-    <RigidBody type="fixed" position={[0, 0.5, -1]}>
-      {/* Main box body */}
-      <CuboidCollider args={[0.25, 0.1, 0.3]}>
-        <mesh receiveShadow castShadow>
-          <boxGeometry args={[0.5, 0.4, 0.4]} />
-          <meshPhysicalMaterial 
+    <RigidBody type="fixed" position={[-0.2, 0.30, -1]}>
+      {/* Main box body - split into multiple colliders */}
+      <group>
+        {/* Bottom collider */}
+        <CuboidCollider
+          args={[0.15, 0.05, 0.2]}
+          position={[0, -0.25, 0]}
+        />
+
+        {/* Left wall */}
+        <CuboidCollider
+          args={[0.02, 0.3, 2.2]}
+          position={[-0.17, 0, 0]}
+        />
+
+        {/* Right wall */}
+        <CuboidCollider
+          args={[0.02, 0.3, 0.2]}
+          position={[0.13, 0, 0]}
+        />
+
+        {/* Front wall (shorter to allow coin viewing) */}
+        {/* <CuboidCollider
+          args={[0.15, 0.15, 0.02]}
+          position={[0, -0.15, 0.18]}
+        /> */}
+
+        {/* Visual meshes */}
+        <mesh
+          ref={boxRef}
+          receiveShadow
+          castShadow
+        >
+          <meshPhysicalMaterial
             color="#444444"
             roughness={0.4}
             clearcoat={0.8}
@@ -155,67 +209,111 @@ function CoinBox() {
             metalness={0}
           />
         </mesh>
-        <Attractor range={0.2} strength={1} />
-      </CuboidCollider>
 
-      {/* Coin slot hole */}
-      <mesh position={[0, 0.2, 0]}>
-        <boxGeometry args={[0.08, 0.15, 0.4]} />
-        <meshBasicMaterial color="black" />
-      </mesh>
-      
-      {/* Coin slot sensor */}
-      <CuboidCollider 
-        args={[0.04, 0.075, 0.2]} 
-        position={[0, 0.2, 0]}
+        {/* Wire tube coming out of coin box */}
+        <mesh position={[-0.15, -0.25, -0.15]}>
+          <tubeGeometry
+            args={[
+              new THREE.CatmullRomCurve3([
+                new THREE.Vector3(0, 0, 0),
+                new THREE.Vector3(-0.1, 0, -0.05),
+                new THREE.Vector3(-0.3, 0, -0.1),
+                new THREE.Vector3(-0.5, 0, -0.05),
+                new THREE.Vector3(-0.7, 0, 0)
+              ]),
+              64, // tubular segments
+              0.02, // radius
+              8, // radial segments
+              false // closed
+            ]}
+          />
+          <meshStandardMaterial
+            color="#ff0000"
+            roughness={0.3}
+            metalness={0.7}
+          />
+        </mesh>
+
+        {/* Red faceplate */}
+        <mesh
+          ref={faceplateRef}
+          position={[0, 0, 0.2]} // Slightly in front of box
+          receiveShadow
+          castShadow
+        >
+          <meshPhysicalMaterial
+            color="#ff0000"
+            roughness={0.2}
+            clearcoat={1}
+            clearcoatRoughness={0}
+            metalness={0.3}
+            transparent
+            opacity={0.8}
+            emissive="#ff0000"
+            emissiveIntensity={0.5}
+          />
+        </mesh>
+
+        <Text
+          position={[0.04, 0.10, 0.22]}
+          fontSize={0.055}
+          fontWeight="bold"
+          color="white"
+          textAlign="center"
+          anchorY="middle"
+        >
+          25¢
+        </Text>
+
+        <Text
+          position={[0.04, -0.02, 0.22]}
+          fontSize={0.025}
+          color="white"
+          fontWeight="bold"
+          textAlign="center"
+          anchorY="middle"
+        >
+          INSERT
+        </Text>
+
+        <Text
+          position={[0.04, -0.05, 0.22]}
+          fontSize={0.022}
+          fontWeight="bold"
+          color="white"
+          textAlign="center"
+          anchorY="middle"
+        >
+          COIN TO
+        </Text>
+
+        <Text
+          position={[0.04, -0.082, 0.22]}
+          fontSize={0.04}
+          color="white"
+          textAlign="center"
+          fontWeight="bold"
+          anchorY="middle"
+        >
+          PLAY
+        </Text>
+      </group>
+
+      {/* Coin slot sensor - moved to left side */}
+      <CuboidCollider
+        args={[0.13, 0.4, 0.08]}
+        position={[-0.05, .1, -1]}
         sensor
+        onIntersectionEnter={onCoinInserted}
       />
-
-      {/* Slot guides */}
-      <mesh position={[-0.06, 0.2, 0]}>
-        <boxGeometry args={[0.02, 0.15, 0.4]} />
-        <meshPhysicalMaterial color="#333333" />
-      </mesh>
-      <mesh position={[0.06, 0.2, 0]}>
-        <boxGeometry args={[0.02, 0.15, 0.4]} />
-        <meshPhysicalMaterial color="#333333" />
-      </mesh>
     </RigidBody>
   );
 }
 
-function Scene() {
-  const [isActive, setIsActive] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState(0);
-  
-  const handleCoinInserted = () => {
-    setTimeRemaining(prev => prev + COIN_VALUE);
-    setIsActive(true);
-  };
-  
-  useEffect(() => {
-    if (!isActive) return;
-    if (timeRemaining <= 0) {
-      setIsActive(false);
-      return;
-    }
-    const timer = setInterval(() => {
-      setTimeRemaining(prev => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          setIsActive(false);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [isActive, timeRemaining]);
-  
+function Scene({ onCoinInserted }: { onCoinInserted: () => void }) {
   return (
-    <Physics gravity={[0, -9.8, 0]} debug>
-      <CoinSlotTrigger onCoinInserted={handleCoinInserted} />
-      <CoinBox />
+    <Physics>
+      <CoinBox onCoinInserted={onCoinInserted} />
       <CoinStack />
       <Ground />
       <Environment preset="sunset" />
@@ -223,14 +321,13 @@ function Scene() {
   );
 }
 
-export default function CoinMech() {
+export default function CoinMech({ onCoinInserted }: { onCoinInserted: () => void }) {
   return (
     <div className="w-full h-[600px]">
       <Canvas shadows>
-        <color attach="background" args={['lightpink']} />
-        <Scene />
-        <PerspectiveCamera makeDefault position={[0, 0.5, 1]} rotation={[0, 0, 0]} />
-        <OrbitControls enableZoom enablePan enableRotate />
+        <Scene onCoinInserted={onCoinInserted} />
+        <PerspectiveCamera makeDefault position={[-0.60, 0.35, 0.05]} rotation={[-0.04, -0.4, 0]} />
+        {/* <OrbitControls target={[0, 0, -1]} enableZoom enablePan enableRotate /> */}
       </Canvas>
     </div>
   );

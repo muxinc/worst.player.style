@@ -1,5 +1,6 @@
 // import Player from './components/Player';
 import CoinMech from './components/CoinMech';
+import PlayerComp from './components/PlayerComp';
 function App() {
   return (
     <>
@@ -50,7 +51,7 @@ function App() {
             <p className="text-lg">Join us in-person or participate remotely</p>
           </div>
 
-          <CoinMech />
+          <PlayerComp />
           
           <div className="prose prose-lg mx-auto mt-12 mb-16 px-4 max-w-4xl text-left">
             <p className="mb-8 text-3xl font-serif leading-relaxed">
