@@ -1,0 +1,47 @@
+{
+  "name": "worst-player",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@react-spring/three": "^9.7.3",
+    "@react-three/cannon": "^6.6.0",
+    "@react-three/drei": "^10.0.4",
+    "@react-three/fiber": "^9.1.0",
+    "@react-three/rapier": "^2.0.0",
+    "@react-three/rapier-addons": "^5.0.0",
+    "@tailwindcss/vite": "^4.0.12",
+    "@types/three": "^0.174.0",
+    "@use-gesture/react": "^10.3.1",
+    "media-chrome": "^4.7.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwindcss": "^4.0.12",
+    "three": "^0.174.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.21.0",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.21.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^15.15.0",
+    "typescript": "~5.7.2",
+    "typescript-eslint": "^8.24.1",
+    "vite": "^6.2.0"
+  },
+  "overrides": {
+    "@react-spring/three": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    }
+  }
+}
