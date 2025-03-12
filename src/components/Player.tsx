@@ -10,9 +10,10 @@ import { useEffect, useRef } from 'react';
 interface PlayerProps {
   isPlaying: boolean;
   timeRemaining: number;
+  continueCountdown: number;
 }
 
-const Player = ({ isPlaying, timeRemaining }: PlayerProps) => {
+const Player = ({ isPlaying, timeRemaining, continueCountdown }: PlayerProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -21,9 +22,12 @@ const Player = ({ isPlaying, timeRemaining }: PlayerProps) => {
         videoRef.current.play();
       } else {
         videoRef.current.pause();
+        if (continueCountdown === 0 && timeRemaining === 0) {
+          videoRef.current.currentTime = 0; // Reset video to beginning when continue countdown ends
+        }
       }
     }
-  }, [isPlaying]);
+  }, [isPlaying, continueCountdown, timeRemaining]);
 
   return (
     <MediaController id="player">
@@ -46,8 +50,18 @@ const Player = ({ isPlaying, timeRemaining }: PlayerProps) => {
       >
         {timeRemaining === 0 && (
           <>
-            <div className="animate-pulse">Insert Coin</div>
-            <div className="text-lg mt-2 text-gray-500 animate-pulse">to continue watching</div>
+            {continueCountdown > 0 ? (
+              <div className="flex flex-col items-center">
+                <div className="text-[#FF0000] text-6xl font-bold mb-4 animate-pulse">CONTINUE?</div>
+                <div className="text-4xl font-bold">{continueCountdown}</div>
+                <div className="text-lg mt-4 text-gray-300">Insert Coin to Continue</div>
+              </div>
+            ) : (
+              <>
+                <div className="animate-pulse">Insert Coin</div>
+                <div className="text-lg mt-2 text-gray-500 animate-pulse">to continue watching</div>
+              </>
+            )}
           </>
         )}
       </div>
