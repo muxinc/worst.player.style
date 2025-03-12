@@ -297,14 +297,15 @@ function CoinBox({ onCoinInserted }: { onCoinInserted: () => void }) {
                 </mesh>
 
                 {/* Wire tube coming out of coin box */}
-                <mesh position={[-0.15, -0.25, -0.15]}>
+                <mesh position={[-0.15, -0.25, -0.2]}>
                     <tubeGeometry
                         args={[
                             new THREE.CatmullRomCurve3([
                                 new THREE.Vector3(0, 0, 0),
-                                new THREE.Vector3(-0.1, 0, -0.05),
-                                new THREE.Vector3(-0.3, 0, -0.1),
-                                new THREE.Vector3(-0.5, 0, -0.05),
+                                new THREE.Vector3(0, 0, -0.1),
+                                new THREE.Vector3(-0.1, 0, -0.2),
+                                new THREE.Vector3(-0.3, 0, -0.2),
+                                new THREE.Vector3(-0.5, 0, -0.1),
                                 new THREE.Vector3(-0.7, 0, 0)
                             ]),
                             64, // tubular segments
