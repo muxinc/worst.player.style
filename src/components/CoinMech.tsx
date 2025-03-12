@@ -101,7 +101,7 @@ function Coin({ position }: { position: [number, number, number] }) {
                 setIsGrabbed(false);
                 document.body.style.cursor = 'auto';
                 coinPhysics.setBodyType(0, true);
-                coinPhysics.applyImpulse({ x: 0, y: 0, z: -0.01 }, true);
+                coinPhysics.applyImpulse({ x: 0, y: 0, z: -0.005 }, true);
             }
         }
     });
@@ -247,32 +247,38 @@ function CoinBox({ onCoinInserted }: { onCoinInserted: () => void }) {
     }, []);
 
     return (
-        <RigidBody type="fixed" position={[-0.2, 0.30, -1]}>
+        <RigidBody colliders={false} type="fixed" position={[-0.2, 0.30, -1]}>
             {/* Main box body - split into multiple colliders */}
             <group>
-                {/* Bottom collider */}
+
+
+                {/* Right wall (shorter to allow coin viewing) */}
                 <CuboidCollider
-                    args={[0.15, 0.05, 0.2]}
-                    position={[0, -0.25, 0]}
+                    args={[0.12, 0.3, 0.2]}
+                    position={[0.08, 0.00, 0.01]}
+                    restitution={30}
                 />
 
                 {/* Left wall */}
                 <CuboidCollider
-                    args={[0.02, 0.3, 0.2]}
-                    position={[-0.17, 0, 0]}
+                    args={[0.079, 0.18, 0.2]}
+                    position={[-0.139, 0.00, 0.01]}
+                    restitution={30}
                 />
 
-                {/* Right wall */}
+                {/* Top wall */}
                 <CuboidCollider
-                    args={[0.02, 0.3, 0.2]}
-                    position={[0.13, 0, 0]}
+                    args={[0.09, 0.05, 0.2]}
+                    position={[-0.11, 0.25, 0.01]}
+                    restitution={30}
                 />
 
-                {/* Front wall (shorter to allow coin viewing) */}
-                {/* <CuboidCollider
-          args={[0.15, 0.15, 0.02]}
-          position={[0, -0.15, 0.18]}
-        /> */}
+                {/* Bottom wall */}
+                <CuboidCollider
+                    args={[0.09, 0.05, 0.2]}
+                    position={[-0.11, -0.25, 0.01]}
+                    restitution={30}
+                />
 
                 {/* Visual meshes */}
                 <mesh
@@ -421,8 +427,8 @@ function CoinBox({ onCoinInserted }: { onCoinInserted: () => void }) {
 
             {/* Update sensor to use new handler */}
             <CuboidCollider
-                args={[0.5, 0.4, 0.2]}
-                position={[-0.05, .1, -2]}
+                args={[0.2, 0.4, 0.2]}
+                position={[-0.05, .1, -1.5]}
                 sensor
                 onIntersectionEnter={handleCoinInserted}
             />
@@ -432,7 +438,7 @@ function CoinBox({ onCoinInserted }: { onCoinInserted: () => void }) {
 
 function Scene({ onCoinInserted }: { onCoinInserted: () => void }) {
     return (
-        <Physics debug>
+        <Physics>
             <directionalLight
                 position={[-2, 4, 2]}
                 intensity={2.5}
