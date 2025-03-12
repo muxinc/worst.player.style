@@ -47,8 +47,8 @@ const Player = ({ isPlaying, timeRemaining }: PlayerProps) => {
       >
         {timeRemaining === 0 && (
           <>
-            <div>Insert Coin</div>
-            <div className="text-lg mt-2 text-gray-500">to continue watching</div>
+            <div className="animate-pulse">Insert Coin</div>
+            <div className="text-lg mt-2 text-gray-500 animate-pulse">to continue watching</div>
           </>
         )}
       </div>

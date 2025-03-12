@@ -1,7 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import {
-    MeshReflectorMaterial,
     MeshTransmissionMaterial,
     Environment,
     PerspectiveCamera,
@@ -16,7 +15,7 @@ import {
     CylinderCollider,
     RapierRigidBody
 } from '@react-three/rapier';
-import { Mesh, Quaternion, Euler, BoxGeometry } from 'three';
+import { Mesh, Quaternion, Euler, BoxGeometry, TextureLoader, RepeatWrapping } from 'three';
 import { useDrag } from '@use-gesture/react';
 import { SUBTRACTION, Brush, Evaluator } from 'three-bvh-csg';
 import * as THREE from 'three';
@@ -28,7 +27,7 @@ function Coin({ position }: { position: [number, number, number] }) {
     const rigidBody = useRef<RapierRigidBody>(null);
     const visualRef = useRef<Mesh>(null);
     const normRepeat = 1;
-    const [normalMap, urlz] = useNormalTexture(
+    const [normalMap] = useNormalTexture(
         67, // index of the normal texture - https://github.com/emmelleppi/normal-maps/blob/master/normals.json
         // second argument is texture attributes
         {
@@ -37,7 +36,19 @@ function Coin({ position }: { position: [number, number, number] }) {
             anisotropy: 8
         }
     )
+
+    const logoTexture = useLoader(TextureLoader, '/mux-logo.png');
+
+    // Set up logo texture
+    useEffect(() => {
+        if (logoTexture) {
+            logoTexture.center.set(0.5, 0.5); // Center the texture
+            logoTexture.repeat.set(0.5, 0.5); // Scale down to 50%
+        }
+    }, [logoTexture]);
+
     const [isGrabbed, setIsGrabbed] = useState(false);
+
     useFrame(({ pointer, camera, raycaster }) => {
         if (isGrabbed && rigidBody.current) {
             const coinPhysics = rigidBody.current;
@@ -52,7 +63,7 @@ function Coin({ position }: { position: [number, number, number] }) {
             const targetPos = {
                 x: targetPoint.x,
                 y: Math.max(targetPoint.y, 0.1),  // Keep the minimum height constraint
-                z: Math.max(targetPoint.z, -0.6)
+                z: Math.max(targetPoint.z, -0.6)  // Adjusted to match coin box position
             };
 
             coinPhysics.setNextKinematicTranslation(targetPos);
@@ -105,8 +116,8 @@ function Coin({ position }: { position: [number, number, number] }) {
         >
             <CylinderCollider
                 args={[0.01, 0.1]}
-                friction={0.5}
-                restitution={0}
+                friction={1}
+                restitution={0.1}
                 frictionCombineRule={3}  // Use maximum friction when coins touch
                 restitutionCombineRule={1}  // Use minimum bounciness when coins touch
             />
@@ -115,7 +126,6 @@ function Coin({ position }: { position: [number, number, number] }) {
                 ref={visualRef}
                 castShadow
                 receiveShadow
-                {...bind()}
             >
                 <cylinderGeometry args={[0.10, 0.10, 0.02, 16]} />
                 <meshStandardMaterial
@@ -145,19 +155,22 @@ function CoinStack({ count = 50 }) {
 }
 
 function Ground() {
+    const texture = useLoader(TextureLoader, '/arcade_carpet_1_512.png');
+    texture.wrapS = texture.wrapT = RepeatWrapping;
+    texture.repeat.set(10, 10);
+
     return (
         <RigidBody type="fixed" position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-            <CuboidCollider args={[5, 5, 0.1]} friction={0.9} restitution={0}>
+            <CuboidCollider args={[5, 5, 0]} friction={0.9} restitution={0}>
                 <mesh receiveShadow>
                     <planeGeometry args={[10, 10]} />
-                    <MeshReflectorMaterial
-                        mirror={0.5}
-                        resolution={1024}
-                        mixBlur={8}
-                        mixStrength={1}
-                        roughness={1}
-                        depthScale={1}
-                        color="#0a0a0f"
+                    <meshStandardMaterial
+                        map={texture}
+                        roughness={0.95}
+                        metalness={0.1}
+                        normalScale={[0.3, 0.3]}
+                        displacementScale={0.05}
+                        bumpScale={0.02}
                     />
                 </mesh>
             </CuboidCollider>
@@ -168,6 +181,28 @@ function Ground() {
 function CoinBox({ onCoinInserted }: { onCoinInserted: () => void }) {
     const boxRef = useRef<Mesh>(null);
     const faceplateRef = useRef<Mesh>(null);
+    const [isFlickering, setIsFlickering] = useState(false);
+    const [lightIntensity, setLightIntensity] = useState(2);
+
+    // Handle coin insertion with flicker effect
+    const handleCoinInserted = () => {
+        onCoinInserted();
+        setIsFlickering(true);
+
+        // Reset flicker after 500ms
+        setTimeout(() => {
+            setIsFlickering(false);
+        }, 500);
+    };
+
+    // Animate the light flicker
+    useFrame(() => {
+        if (isFlickering) {
+            setLightIntensity(Math.random() * 5 + 1); // Random intensity between 1 and 6
+        } else {
+            setLightIntensity(2); // Default intensity
+        }
+    });
 
     const normRepeat = 1;
 
@@ -282,7 +317,7 @@ function CoinBox({ onCoinInserted }: { onCoinInserted: () => void }) {
                 {/* Red faceplate */}
                 <mesh
                     ref={faceplateRef}
-                    position={[0, 0, 0.2]} // Slightly in front of box
+                    position={[0, 0, 0.21]}
                     receiveShadow
                     castShadow
                 >
@@ -299,24 +334,55 @@ function CoinBox({ onCoinInserted }: { onCoinInserted: () => void }) {
                     />
                 </mesh>
 
-                {/* Red glow light inside coin slot */}
+                {/* Multiple red glow lights behind faceplate */}
                 <pointLight
                     position={[-0.05, 0, 0.1]}
                     color="#ff0000"
-                    intensity={2}
+                    intensity={lightIntensity}
                     distance={0.3}
                     decay={2}
                 />
+                <pointLight
+                    position={[0.05, 0.1, 0.1]}
+                    color="#ff0000"
+                    intensity={lightIntensity * 0.7}
+                    distance={0.25}
+                    decay={2}
+                />
+                <pointLight
+                    position={[0.05, -0.1, 0.1]}
+                    color="#ff0000"
+                    intensity={lightIntensity * 0.7}
+                    distance={0.25}
+                    decay={2}
+                />
+                {/* <pointLight
+                    position={[0.1, 0.05, 0.2]}
+                    color="#ff3333"
+                    intensity={lightIntensity * 0.5}
+                    distance={0.2}
+                    decay={2}
+                /> */}
 
                 <Text
                     position={[0.04, 0.10, 0.22]}
-                    fontSize={0.055}
+                    fontSize={0.075}
                     fontWeight="bold"
                     color="white"
                     textAlign="center"
                     anchorY="middle"
                 >
-                    25¢
+                    25
+                </Text>
+                <Text
+                    position={[0.089, 0.083, 0.22]}
+                    fontSize={0.035}
+                    fontWeight="bold"
+                    color="white"
+                    textAlign="center"
+                    anchorY="middle"
+                >
+                    ¢
                 </Text>
 
                 <Text
@@ -353,12 +419,12 @@ function CoinBox({ onCoinInserted }: { onCoinInserted: () => void }) {
                 </Text>
             </group>
 
-            {/* Coin slot sensor - moved to left side */}
+            {/* Update sensor to use new handler */}
             <CuboidCollider
                 args={[0.5, 0.4, 0.2]}
                 position={[-0.05, .1, -2]}
                 sensor
-                onIntersectionEnter={onCoinInserted}
+                onIntersectionEnter={handleCoinInserted}
             />
         </RigidBody>
     );
@@ -367,6 +433,18 @@ function CoinBox({ onCoinInserted }: { onCoinInserted: () => void }) {
 function Scene({ onCoinInserted }: { onCoinInserted: () => void }) {
     return (
         <Physics debug>
+            <directionalLight
+                position={[-2, 4, 2]}
+                intensity={2.5}
+                castShadow
+                shadow-mapSize={[2048, 2048]}
+                shadow-camera-left={-5}
+                shadow-camera-right={5}
+                shadow-camera-top={5}
+                shadow-camera-bottom={-5}
+                shadow-camera-near={0.1}
+                shadow-camera-far={10}
+            />
             <CoinBox onCoinInserted={onCoinInserted} />
             <CoinStack />
             <Ground />
