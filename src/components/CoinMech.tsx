@@ -4,7 +4,6 @@ import {
     MeshTransmissionMaterial,
     Environment,
     PerspectiveCamera,
-    OrbitControls,
     Text,
     useNormalTexture
 } from '@react-three/drei';
@@ -206,7 +205,7 @@ function CoinBox({ onCoinInserted }: { onCoinInserted: () => void }) {
 
     const normRepeat = 1;
 
-    const [normalMap, urlz] = useNormalTexture(
+    const [normalMap] = useNormalTexture(
         39, // index of the normal texture - https://github.com/emmelleppi/normal-maps/blob/master/normals.json
         // second argument is texture attributes
         {

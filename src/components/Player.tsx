@@ -1,7 +1,6 @@
 import {
     MediaController,
     MediaControlBar,
-    MediaTimeDisplay,
     MediaVolumeRange,
     MediaPlayButton,
     MediaMuteButton,
