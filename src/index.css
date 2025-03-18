@@ -1,1 +1,26 @@
 @import "tailwindcss";
+
+@font-face {
+    font-family: 'VCR OSD Mono';
+    src: url('/fonts/VCR_OSD_MONO_1.001.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Aeonik';
+    src: url('/fonts/Aeonik-Regular.woff2') format('woff2');
+}
+
+@theme {
+    --font-vcr: "VCR OSD Mono", "sans-serif";
+    --font-aeonik: "Aeonik", "sans-serif";
+
+    --color-plum: #A83B71;
+    --color-orangish: #F26222;
+    --color-vhs-blue: #0000EC;
+
+    @keyframes blink {
+        0% { opacity: 1; }
+        50% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+}

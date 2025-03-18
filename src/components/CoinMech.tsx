@@ -249,8 +249,6 @@ function CoinBox({ onCoinInserted }: { onCoinInserted: () => void }) {
         <RigidBody colliders={false} type="fixed" position={[-0.2, 0.30, -1]}>
             {/* Main box body - split into multiple colliders */}
             <group>
-
-
                 {/* Right wall (shorter to allow coin viewing) */}
                 <CuboidCollider
                     args={[0.12, 0.3, 0.2]}
@@ -318,6 +316,26 @@ function CoinBox({ onCoinInserted }: { onCoinInserted: () => void }) {
                         roughness={0.3}
                         metalness={0.7}
                     />
+                </mesh>
+
+                {/* Aged white sticker on left side */}
+                <mesh position={[0.12, -0.27, 0.201]}>
+                    <planeGeometry args={[0.1, 0.032]} />
+                    <meshPhysicalMaterial
+                        color="#ffffff"
+                        roughness={0.1}
+                        metalness={1}
+                        opacity={0.6}
+                        transparent
+                        iridescence={1}
+                        iridescenceIOR={2}
+                        clearcoat={1}
+                        transmission={0.5}
+                        map={new THREE.TextureLoader().load('/mux-logo.png')}
+                        emissive="#00ffff"
+                        emissiveIntensity={2}
+                    >
+                    </meshPhysicalMaterial>
                 </mesh>
 
                 {/* Red faceplate */}
@@ -465,7 +483,6 @@ export default function CoinMech({ onCoinInserted }: { onCoinInserted: () => voi
             <Canvas shadows>
                 <Scene onCoinInserted={onCoinInserted} />
                 <PerspectiveCamera makeDefault position={[-0.60, 0.35, 0.05]} rotation={[-0.04, -0.4, 0]} />
-                {/* <PerspectiveCamera makeDefault position={[-0.20, 0.35, 0.05]} rotation={[-0.04, -0, 0]} /> */}
                 {/* <OrbitControls target={[0, 0, -1]} enableZoom enablePan enableRotate /> */}
             </Canvas>
         </div>
