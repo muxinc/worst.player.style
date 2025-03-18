@@ -39,7 +39,7 @@ function App() {
         <Hero />
         <PlayerComp />
 
-        <div className="container mx-auto pb-6 max-w-7xl">
+        <div className="container mx-auto pb-6 max-w-5xl mt-32">
           <div className="grid grid-cols-[224px_1fr] gap-20">
             <Menu />
             <div>
