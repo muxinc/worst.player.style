@@ -51,7 +51,7 @@ export default function PlayerComp() {
   }, [continueCountdown]);
 
   const handleCoinInserted = () => {
-    setTimeRemaining((prev) => prev + 20); // Add 20 seconds for each coin
+    setTimeRemaining((prev) => prev + 5); // Add 5 seconds for each coin
   };
 
   return (
