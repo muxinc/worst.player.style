@@ -23,6 +23,8 @@ const Player = ({ isPlaying, timeRemaining, continueCountdown }: PlayerProps) =>
       } else {
         videoRef.current.pause();
         if (continueCountdown === 0 && timeRemaining === 0) {
+          const gameOverSound = new Audio('/game-over.m4a');
+          gameOverSound.play();
           videoRef.current.currentTime = 0; // Reset video to beginning when continue countdown ends
         }
       }
@@ -39,7 +41,7 @@ const Player = ({ isPlaying, timeRemaining, continueCountdown }: PlayerProps) =>
           flex flex-col justify-center items-center
           text-gray-400 text-2xl font-medium text-center
           backdrop-grayscale backdrop-brightness-50 backdrop-contrast-75
-          bg-black/50
+          bg-black/10
         `}
         onClick={(e) => {
           if (timeRemaining === 0) {
@@ -52,14 +54,14 @@ const Player = ({ isPlaying, timeRemaining, continueCountdown }: PlayerProps) =>
           <>
             {continueCountdown > 0 ? (
               <div className="flex flex-col items-center">
-                <div className="text-[#FF0000] text-6xl font-bold mb-4 animate-pulse">CONTINUE?</div>
-                <div className="text-4xl font-bold">{continueCountdown}</div>
-                <div className="text-lg mt-4 text-gray-300">Insert Coin to Continue</div>
+                <div className="text-[#FF0000] text-6xl font-bold mb-4 animate-pulse font-vcr">CONTINUE?</div>
+                <div className="text-4xl font-bold font-vcr">{continueCountdown}</div>
+                <div className="text-lg mt-4 text-gray-300 font-vcr">Insert Coin to Continue</div>
               </div>
             ) : (
               <>
-                <div className="animate-pulse">Insert Coin</div>
-                <div className="text-lg mt-2 text-gray-500 animate-pulse">to continue watching</div>
+                <div className="animate-pulse font-vcr">Insert Coin</div>
+                <div className="text-lg mt-2 text-gray-500 animate-pulse font-vcr">to watch video</div>
               </>
             )}
           </>
@@ -70,8 +72,6 @@ const Player = ({ isPlaying, timeRemaining, continueCountdown }: PlayerProps) =>
         slot="media"
         src="https://stream.mux.com/DS00Spx1CV902MCtPj5WknGlR102V5HFkDe/high.mp4"
         preload="auto"
-        muted
-        crossOrigin=""
       />
       {timeRemaining > 0 && (
         <MediaControlBar>

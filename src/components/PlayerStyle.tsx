@@ -1,10 +1,9 @@
 import PlayerStyleSvg from '../assets/player.style.svg';
+import Asterisk from '../assets/asterisk.svg';
 const PlayerStyle = () => {
   return (
     <>
-      <div className="w-full font-vcr text-2xl overflow-hidden whitespace-nowrap text-black leading-none translate-y-2">
-        {'*'.repeat(5)}
-      </div>
+        <img src={Asterisk} alt="Asterisk" className="w-full h-4" />
 
       <div className="w-full bg-black text-white font-vcr p-1 text-center">
         <p className="my-6 text-xl max-w-2xl flex place-self-center">
@@ -18,9 +17,7 @@ const PlayerStyle = () => {
         </p>
       </div>
 
-      <div className="w-full font-vcr text-2xl overflow-hidden whitespace-nowrap text-black leading-none -translate-y-[1px]">
-        {'*'.repeat(5)}
-      </div>
+      <img src={Asterisk} alt="Asterisk" className="w-full h-4" />
     </>
   );
 };

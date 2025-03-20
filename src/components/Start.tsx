@@ -95,7 +95,15 @@ const Start = () => {
 
                 <p className="mb-8 text-2xl font-aeonik leading-relaxed">First, install Media Chrome with <code className="bg-white px-1 rounded-md">npm install media-chrome</code> or by including the script tag in your HTML file.</p>
 
-                <div className="hidden md:block mb-8">
+                <div className="lg:hidden mb-8 text-2xl font-aeonik leading-relaxed">
+                    View the starter templates:
+                    <ul className="list-disc pl-8 mt-4">
+                        <li><Link href="https://gist.github.com/davekiss/e30c3d14177b7d21f883947dff3d8544">HTML Template</Link></li>
+                        <li><Link href="https://gist.github.com/davekiss/eae7c82824929826c4066b37db86474e">React Template</Link></li>
+                    </ul>
+                </div>
+
+                <div className="hidden lg:block mb-8">
                     <div className="flex">
                         <button
                             onClick={() => handleTemplateChange("html")}

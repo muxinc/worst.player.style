@@ -10,7 +10,7 @@ const Submit = () => {
                 <p className="mb-8 text-2xl font-aeonik leading-relaxed text-white">Fill out the official submission form to complete your contest entry:</p>
 
                 <a
-                    href="https://forms.gle/123"
+                    href="https://forms.gle/7aKhquYNduXTaJrE8"
                     className="inline-block text-black bg-yella uppercase w-full px-20 py-4 text-base font-vcr border-4 border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all mb-12"
                 >
                     Submit your creation

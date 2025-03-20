@@ -19,6 +19,7 @@
     "@tailwindcss/vite": "^4.0.12",
     "@types/three": "^0.174.0",
     "@use-gesture/react": "^10.3.1",
+    "debounce": "^2.2.0",
     "media-chrome": "^4.7.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

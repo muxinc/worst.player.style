@@ -4,9 +4,12 @@ import CoinMech from "./CoinMech";
 
 export default function PlayerComp() {
   const [timeRemaining, setTimeRemaining] = useState(0);
+  const [maxTime, setMaxTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [continueCountdown, setContinueCountdown] = useState(0);
-  const CONTINUE_TIME = 10; // 10 seconds to continue
+  const CONTINUE_TIME = 8; // 8 seconds to continue
+  const WARNING_THRESHOLD = 3; // Start warning animation when 3 seconds or less remain
+  const TIME_PER_COIN = 3; // 5 seconds per coin
 
   useEffect(() => {
     let timer: number;
@@ -51,33 +54,43 @@ export default function PlayerComp() {
   }, [continueCountdown]);
 
   const handleCoinInserted = () => {
-    setTimeRemaining((prev) => prev + 5); // Add 5 seconds for each coin
+    const newTime = timeRemaining + TIME_PER_COIN; // Add seconds for each coin
+    setTimeRemaining(newTime);
+    setMaxTime(newTime); // Update max time when coins are added
   };
 
   return (
-    <div className="flex">
-      <div className="relative flex-[3] flex flex-col justify-end">
+    <div className="flex items-end">
+      <div className="relative flex-[4] flex flex-col justify-end">
         <Player
           isPlaying={isPlaying}
           timeRemaining={timeRemaining}
           continueCountdown={continueCountdown}
         />
         {timeRemaining > 0 && (
-          <div className="absolute top-4 right-4 flex items-center gap-2">
-            <div className="text-[#39FF14] text-sm font-bold">TIME</div>
-            <div className="h-4 w-32 bg-black/50 border-2 border-[#39FF14] rounded-sm overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 flex items-center bg-black border-b-4 border-[#39FF14] px-4 py-2">
+            <div className="text-[#39FF14] text-2xl font-vcr mr-4">TIME</div>
+            <div className="h-6 flex-1 bg-black border-2 border-[#39FF14] overflow-hidden">
               <div
-                className="h-full bg-[#39FF14] transition-all duration-1000 ease-linear"
-                style={{ width: `${(timeRemaining / 20) * 100}%` }}
+                className={`h-full transition-all duration-1000 ease-linear ${timeRemaining <= WARNING_THRESHOLD ? 'animate-pulse' : ''}`}
+                style={{
+                  width: `${Math.max(((timeRemaining - 1) / (maxTime - 1)) * 100, 0)}%`,
+                  background: timeRemaining <= WARNING_THRESHOLD
+                    ? 'linear-gradient(90deg, #FF0000 0%, #FF6B00 100%)'
+                    : 'linear-gradient(90deg, #39FF14 0%, #00FF94 100%)',
+                  boxShadow: timeRemaining <= WARNING_THRESHOLD
+                    ? '0 0 10px rgba(255, 0, 0, 0.5)'
+                    : '0 0 10px rgba(57, 255, 20, 0.3)'
+                }}
               />
             </div>
-            <div className="text-[#39FF14] font-bold">
+            <div className={`text-2xl font-vcr ml-4 ${timeRemaining <= WARNING_THRESHOLD ? 'text-red-500 animate-pulse' : 'text-[#39FF14]'}`}>
               {timeRemaining}
             </div>
           </div>
         )}
       </div>
-      <div className="flex-[2]">
+      <div className="flex-[2] border-2 border-black">
         <CoinMech onCoinInserted={handleCoinInserted} />
       </div>
     </div>

@@ -1,8 +1,7 @@
+import Asterisk from '../assets/asterisk.svg';
 const HR = () => {
   return (
-    <div className="w-full font-vcr text-2xl overflow-hidden whitespace-nowrap text-black">
-      {'*'.repeat(5)}
-    </div>
+    <img src={Asterisk} alt="Asterisk" className="w-full h-4" />
   );
 };
 

@@ -1,5 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
+import debounce from 'debounce';
+
 import {
     MeshTransmissionMaterial,
     Environment,
@@ -187,6 +189,10 @@ function CoinBox({ onCoinInserted }: { onCoinInserted: () => void }) {
     const handleCoinInserted = () => {
         onCoinInserted();
         setIsFlickering(true);
+
+        // Play coin sound
+        const coinSound = new Audio('/coin.m4a');
+        coinSound.play();
 
         // Reset flicker after 500ms
         setTimeout(() => {
@@ -448,7 +454,7 @@ function CoinBox({ onCoinInserted }: { onCoinInserted: () => void }) {
                 args={[0.2, 0.4, 0.2]}
                 position={[-0.05, .1, -1.5]}
                 sensor
-                onIntersectionEnter={handleCoinInserted}
+                onIntersectionEnter={debounce(handleCoinInserted, 200)}
             />
         </RigidBody>
     );
