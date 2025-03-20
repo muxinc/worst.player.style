@@ -90,7 +90,7 @@ export default function PlayerComp() {
           </div>
         )}
       </div>
-      <div className="flex-[2] border-2 border-black">
+      <div className="flex-[2]">
         <CoinMech onCoinInserted={handleCoinInserted} />
       </div>
     </div>
