@@ -1,16 +1,17 @@
+import Link from "./Link";
+import BeKindRewind from "../assets/bekindrewind.svg";
+
 const Footer = () => {
   return (
-    <footer className="container mx-auto text-center py-8">
-      <p className="text-gray-400 text-sm italic">be kind, rewind</p>
-      <div className="mt-4">
-        <p className="text-sm">
+    <footer className="container mx-auto flex flex-col items-center justify-center py-8">
+        <p className="text-2xl font-aeonik">
           Powered by{" "}
-          <a href="https://mux.com" className="text-[#A93C71] hover:underline font-bold">
+          <Link href="https://mux.com">
             Mux
-          </a>{" "}
+          </Link>{" "}
           - the video API for developers
         </p>
-      </div>
+        <img src={BeKindRewind} alt="Be Kind Rewind" className="w-24 h-24 animate-spin" />
     </footer>
   );
 };

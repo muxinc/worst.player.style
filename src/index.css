@@ -15,8 +15,11 @@
     --font-aeonik: "Aeonik", "sans-serif";
 
     --color-plum: #A83B71;
+    --color-pink: #F74FB2;
     --color-orangish: #F26222;
     --color-vhs-blue: #0000EC;
+    --color-yella: #F7C016;
+    --color-radred: #EA3737;
 
     @keyframes blink {
         0% { opacity: 1; }
@@ -24,3 +27,19 @@
         100% { opacity: 1; }
     }
 }
+
+.shadowify {
+    box-shadow: 0 5px 0 -2px black,
+                0 11px 0 -6px black,
+                0 17px 0 -10px black,
+                0 23px 0 -14px black,
+                0 29px 0 -18px black,
+                0 35px 0 -22px black,
+                0 41px 0 -26px black,
+                0 47px 0 -30px black,
+                0 53px 0 -34px black,
+                0 59px 0 -38px black,
+                0 65px 0 -42px black,
+                0 71px 0 -46px black,
+                0 77px 0 -50px black;
+  }

@@ -37,10 +37,10 @@ function App() {
       <div className="noise min-h-screen">
         <Banner />
         <Hero />
-        <PlayerComp />
+        {/* <PlayerComp /> */}
 
-        <div className="container mx-auto pb-6 max-w-5xl mt-32">
-          <div className="grid grid-cols-[224px_1fr] gap-20">
+        <div className="container mx-auto pb-6 max-w-5xl mt-32 px-4">
+          <div className="grid grid-cols-1 md:grid-cols-[224px_1fr] gap-20">
             <Menu />
             <div>
               <About />
@@ -50,11 +50,10 @@ function App() {
               <PlayerStyle />
               <Start />
               <Submit />
+              <Footer />
             </div>
           </div>
         </div>
-
-        <Footer />
       </div>
     </>
   )

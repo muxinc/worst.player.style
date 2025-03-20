@@ -1,47 +1,61 @@
+import Label from "./Label";
 const Prizes = () => {
-  return (
-    <div id="prizes" className="max-w-2xl mx-auto my-12 p-6 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-      <h2 className="text-xl md:text-5xl mt-4 mb-6 font-vcr text-plum drop-shadow-[2px_2px_0_#F26222]">Prizes</h2>
+    return (
+        <div id="prizes" className="my-12">
+            <h2 className="text-4xl md:text-5xl mt-4 mb-8 font-vcr text-plum drop-shadow-[2px_2px_0_#F26222]">Prizes</h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-[#F7C016] p-4 border-2 border-black">
-          <div className="flex items-center mb-3">
-            <span className="bg-black text-white px-3 py-2 mr-3 font-bold text-xl">1</span>
-            <span className="font-bold text-xl block">WINNING TEAM</span>
-          </div>
-          <span className="text-white bg-black px-2 py-1 inline-block mb-3">TWO MUX PEAK DESIGN BACKPACKS</span>
-          <p className="text-black">The best way to carry your laptop and a few snacks</p>
-        </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <div className="bg-plum p-5 border-2 border-black flex items-center justify-center rounded-sm h-72">
+                        <div className="relative">
+                            <img src="/images/peak-design-bag.png" alt="Backpack" width={160} height={225} className="absolute rotate-10" />
+                            <img src="/images/peak-design-bag.png" alt="Backpack" width={160} height={225} className="relative -left-2 -top-2 -rotate-4" />
+                        </div>
+                    </div>
 
-        <div className="bg-[#F26222] p-4 border-2 border-black">
-          <div className="flex items-center mb-3">
-            <span className="bg-black text-white px-3 py-2 mr-3 font-bold text-xl">2</span>
-            <span className="font-bold text-xl block">WINNING HACKATHON PARTICIPANT</span>
-          </div>
-          <span className="text-white bg-black px-2 py-1 inline-block mb-3">MUX SONOS SPEAKER</span>
-          <p className="text-black">Fill your space with sound as crisp as your code</p>
-        </div>
+                    <h2 className="text-xl md:text-2xl mt-4 mb-6 font-vcr text-plum">Winning team</h2>
+                    <Label>TWO MUX PEAK DESIGN BACKPACKS</Label>
+                    <p className="mb-8 text-2xl font-aeonik leading-relaxed">The best way to carry your laptop and a few snacks</p>
+                </div>
 
-        <div className="bg-[#EA3737] p-4 border-2 border-black">
-          <div className="flex items-center mb-3">
-            <span className="bg-black text-white px-3 py-2 mr-3 font-bold text-xl">3</span>
-            <span className="font-bold text-xl block">IRL ENTRANTS</span>
-          </div>
-          <span className="text-white bg-black px-2 py-1 inline-block mb-3">MEDIA-CHROME T-SHIRT</span>
-          <p className="text-black">Show up in person and walk away with some sick swag</p>
-        </div>
+                <div>
+                    <div className="bg-radred p-5 border-2 border-black flex items-center justify-center rounded-sm h-72">
+                        <div className="relative">
+                            <img src="/images/sonos.png" alt="Sonos speaker" width={243} height={90} />
+                        </div>
+                    </div>
 
-        <div className="bg-[#A93C71] p-4 border-2 border-black">
-          <div className="flex items-center mb-3">
-            <span className="bg-black text-white px-3 py-2 mr-3 font-bold text-xl">4</span>
-            <span className="font-bold text-xl block">ALL PARTICIPANTS</span>
-          </div>
-          <span className="text-white bg-black px-2 py-1 inline-block mb-3">$100 MUX CREDIT</span>
-          <p className="text-white">Maybe you know him, his name is Abraham. Get Mux bucks, on us.</p>
+                    <h2 className="text-xl md:text-2xl mt-4 mb-6 font-vcr text-plum">Winning Hacker</h2>
+                    <Label>Mux Sonos speaker</Label>
+                    <p className="mb-8 text-2xl font-aeonik leading-relaxed">Fill your space with sound as crisp as your code</p>
+                </div>
+
+                <div>
+                    <div className="bg-orangish p-0 border-2 border-black flex items-end justify-end rounded-sm h-72">
+                        <div className="relative">
+                            <img src="/images/Shirt.png" alt="Shirt" width={329} height={243} />
+                        </div>
+                    </div>
+
+                    <h2 className="text-xl md:text-2xl mt-4 mb-6 font-vcr text-plum">IRL Entrants</h2>
+                    <Label>Media Chrome Thrift-tee</Label>
+                    <p className="mb-8 text-2xl font-aeonik leading-relaxed">Show up in person and walk away with some sick swag</p>
+                </div>
+
+                <div>
+                    <div className="bg-yella p-5 border-2 border-black flex items-center justify-center rounded-sm h-72">
+                        <div className="relative">
+                            <img src="/images/camguy.png" alt="Mux Bux" width={184} height={206} />
+                        </div>
+                    </div>
+
+                    <h2 className="text-xl md:text-2xl mt-4 mb-6 font-vcr text-plum">All participants</h2>
+                    <Label>$100 MUX credit</Label>
+                    <p className="mb-8 text-2xl font-aeonik leading-relaxed">Maybe you know him, his name is Abraham. Get Mux bucks, on us.</p>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default Prizes;

@@ -32,7 +32,7 @@ const Menu = () => {
     }, []);
 
     return (
-        <nav className="sticky top-6 bg-[#0000EC] p-5 border-2 border-white shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] h-fit">
+        <nav className="sticky top-0 md:top-6 bg-[#0000EC] p-5 border-2 border-white shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] h-fit z-10">
             <h2 className="font-vcr text-base text-white uppercase leading-none inline-flex align-self-start">------ MENU ------</h2>
             <ul className="">
                 {menuItems.map((item) => (
