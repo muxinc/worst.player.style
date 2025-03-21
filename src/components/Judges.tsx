@@ -31,7 +31,7 @@ const Judges = () => {
 
       <div className="bg-white p-6 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
         <img
-          src="/judge3.png"
+          src="/images/dar.webp"
           alt="Judge 3"
           className="w-32 h-32 mx-auto rounded-full border-4 border-black mb-4"
         />
