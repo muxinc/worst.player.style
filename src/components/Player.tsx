@@ -1,10 +1,12 @@
 import {
-    MediaController,
-    MediaControlBar,
-    MediaVolumeRange,
-    MediaPlayButton,
-    MediaMuteButton,
-  } from 'media-chrome/react';
+  MediaController,
+  MediaControlBar,
+  MediaVolumeRange,
+  MediaPlayButton,
+  MediaMuteButton,
+} from 'media-chrome/react';
+
+import '@mux/mux-video';
 import { useEffect, useRef } from 'react';
 
 interface PlayerProps {
@@ -67,11 +69,12 @@ const Player = ({ isPlaying, timeRemaining, continueCountdown }: PlayerProps) =>
           </>
         )}
       </div>
-      <video
+      {/* @ts-ignore */}
+      <mux-video
         ref={videoRef}
+        playback-id="PLtkNjmv028bYRJr8BkDlGw7SHOGkCl4d"
         slot="media"
-        src="https://stream.mux.com/PLtkNjmv028bYRJr8BkDlGw7SHOGkCl4d/high.mp4"
-        preload="auto"
+        crossorigin
       />
       {timeRemaining > 0 && (
         <MediaControlBar>
