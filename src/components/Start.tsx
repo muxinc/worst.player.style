@@ -6,12 +6,13 @@ import Link from "./Link";
 
 const HTML_TEMPLATE = `<!-- HTML Template -->
 <media-controller id="player">
-  <video
+  <mux-video
+    ref={videoRef}
+    playback-id="PLtkNjmv028bYRJr8BkDlGw7SHOGkCl4d"
     slot="media"
-    src="https://stream.mux.com/DS00Spx1CV902MCtPj5WknGlR102V5HFkDe/high.mp4"
-    preload="auto"
+    crossorigin
     muted
-  ></video>
+  />
   <media-control-bar>
     <media-play-button></media-play-button>
     <media-mute-button></media-mute-button>
@@ -64,13 +65,13 @@ const Player = ({ isPlaying }: PlayerProps) => {
     <>
       <button onClick={togglePlay}>{isPlaying ? 'Pause' : 'Play'}</button>
       <MediaController id="player">
-        <video
-          slot="media"
-          ref={videoRef}
-          src="https://stream.mux.com/DS00Spx1CV902MCtPj5WknGlR102V5HFkDe/high.mp4"
-          preload="auto"
-          muted
-        />
+      <mux-video
+        ref={videoRef}
+        playback-id="PLtkNjmv028bYRJr8BkDlGw7SHOGkCl4d"
+        slot="media"
+        crossorigin
+        muted
+      />
       </MediaController>
     </>
   );
