@@ -24,8 +24,10 @@ const HTML_TEMPLATE = `<!-- HTML Template -->
 
 <button id="play-button">Play</button>
 
+<script src="https://cdn.jsdelivr.net/npm/@mux/mux-video@0"></script>
+
 <script>
-const video = document.querySelector('video');
+const video = document.querySelector('mux-video');
 const playButton = document.querySelector('#play-button');
 
 playButton.addEventListener('click', () => {
@@ -43,6 +45,7 @@ playButton.addEventListener('click', () => {
 const REACT_TEMPLATE = `// React Template
 import { MediaController } from 'media-chrome/react';
 import { useRef } from 'react';
+import '@mux/mux-video';
 
 interface PlayerProps {
   isPlaying: boolean;
