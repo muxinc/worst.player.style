@@ -70,7 +70,7 @@ const Player = ({ isPlaying, timeRemaining, continueCountdown }: PlayerProps) =>
       <video
         ref={videoRef}
         slot="media"
-        src="https://stream.mux.com/DS00Spx1CV902MCtPj5WknGlR102V5HFkDe/high.mp4"
+        src="https://stream.mux.com/PLtkNjmv028bYRJr8BkDlGw7SHOGkCl4d/high.mp4"
         preload="auto"
       />
       {timeRemaining > 0 && (
