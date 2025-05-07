@@ -7,7 +7,7 @@ const Submit = () => {
         <>
             <div id="submit" className="w-full my-12 bg-plum p-6 border-4 border-black text-center shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
                 <h2 className="text-xl md:text-5xl mt-4 mb-6 font-vcr text-white">Submit your entry</h2>
-                <p className="mb-8 text-2xl font-aeonik leading-relaxed text-white">Fill out the official submission form to complete your contest entry:</p>
+                <p className="mb-8 text-2xl font-aeonik leading-relaxed text-white">Fill out the official submission form to complete your contest entry by June 15, 2025:</p>
 
                 <a
                     href="https://forms.gle/7aKhquYNduXTaJrE8"

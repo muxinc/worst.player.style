@@ -489,7 +489,6 @@ export default function CoinMech({ onCoinInserted }: { onCoinInserted: () => voi
             <Canvas shadows>
                 <Scene onCoinInserted={onCoinInserted} />
                 <PerspectiveCamera makeDefault position={[-0.60, 0.35, 0.05]} rotation={[-0.04, -0.4, 0]} />
-                {/* <OrbitControls target={[0, 0, -1]} enableZoom enablePan enableRotate /> */}
             </Canvas>
         </div>
     );

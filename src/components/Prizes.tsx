@@ -13,7 +13,7 @@ const Prizes = () => {
                         </div>
                     </div>
 
-                    <h2 className="text-xl md:text-2xl mt-4 mb-6 font-vcr text-plum">Winning team</h2>
+                    <h2 className="text-xl md:text-2xl mt-4 mb-6 font-vcr text-plum">Winning submission</h2>
                     <Label>TWO MUX PEAK DESIGN BACKPACKS</Label>
                     <p className="mb-8 text-2xl font-aeonik leading-relaxed">The best way to carry your laptop and a few snacks</p>
                 </div>
@@ -25,7 +25,7 @@ const Prizes = () => {
                         </div>
                     </div>
 
-                    <h2 className="text-xl md:text-2xl mt-4 mb-6 font-vcr text-plum">Winning Hacker</h2>
+                    <h2 className="text-xl md:text-2xl mt-4 mb-6 font-vcr text-plum">Second place</h2>
                     <Label>Mux Sonos speaker</Label>
                     <p className="mb-8 text-2xl font-aeonik leading-relaxed">Fill your space with sound as crisp as your code</p>
                 </div>
