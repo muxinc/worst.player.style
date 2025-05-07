@@ -45,7 +45,7 @@ playButton.addEventListener('click', () => {
 const REACT_TEMPLATE = `// React Template
 import { MediaController } from 'media-chrome/react';
 import { useRef } from 'react';
-import '@mux/mux-video';
+import MuxVideo from '@mux/mux-video-react';
 
 interface PlayerProps {
   isPlaying: boolean;
@@ -68,9 +68,9 @@ const Player = ({ isPlaying }: PlayerProps) => {
     <>
       <button onClick={togglePlay}>{isPlaying ? 'Pause' : 'Play'}</button>
       <MediaController id="player">
-      <mux-video
+      <MuxVideo
         ref={videoRef}
-        playback-id="PLtkNjmv028bYRJr8BkDlGw7SHOGkCl4d"
+        playbackId="PLtkNjmv028bYRJr8BkDlGw7SHOGkCl4d"
         slot="media"
         crossorigin
         muted
