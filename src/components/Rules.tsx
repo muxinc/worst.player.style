@@ -2,6 +2,8 @@ import HR from "./HR";
 import Label from "./Label";
 import Link from "./Link";
 
+import OfficialRules from "./OfficialRules";
+
 const Rules = () => {
     return (
         <>
@@ -28,6 +30,14 @@ const Rules = () => {
                     </div>
                 </div>
                 <HR />
+                <div className="text-center mt-4">
+                    <button className="text-xl font-aeonik underline cursor-pointer" popoverTarget="official-rules">
+                        View Official Rules
+                    </button>
+                    <div popover="auto" id="official-rules" className="bg-transparent m-auto">
+                        <OfficialRules />
+                    </div>
+                </div>
             </div>
         </>
     );

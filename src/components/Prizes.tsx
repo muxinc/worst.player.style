@@ -40,7 +40,7 @@ const Prizes = () => {
                         </div>
                     </div>
 
-                    <h2 className="text-xl md:text-2xl mt-4 mb-6 font-vcr text-plum">All participants</h2>
+                    <h2 className="text-xl md:text-2xl mt-4 mb-6 font-vcr text-plum">First 50 entrants</h2>
                     <Label>Media Chrome Thrift-tee</Label>
                     <p className="mb-8 text-2xl font-aeonik leading-relaxed">Retro vibes guaranteed to help you learn to write COBOL</p>
                 </div>
@@ -52,8 +52,8 @@ const Prizes = () => {
                         </div>
                     </div>
 
-                    <h2 className="text-xl md:text-2xl mt-4 mb-6 font-vcr text-plum">All participants</h2>
-                    <Label>$100 MUX credit</Label>
+                    <h2 className="text-xl md:text-2xl mt-4 mb-6 font-vcr text-plum">First 100 entrants</h2>
+                    <Label>$100 Mux credit</Label>
                     <p className="mb-8 text-2xl font-aeonik leading-relaxed">Maybe you know him, his name is Abraham. Get Mux bucks, on us.</p>
                 </div>
             </div>
